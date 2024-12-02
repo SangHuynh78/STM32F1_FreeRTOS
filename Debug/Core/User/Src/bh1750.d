@@ -1,5 +1,5 @@
 Core/User/Src/bh1750.o: ../Core/User/Src/bh1750.c \
- D:/STworkspace/LTN_Semaphore/LTN_Semaphore/Core/User/Inc/bh1750.h \
+ D:/STworkspace/STM32F1_FreeRTOS/Core/User/Inc/bh1750.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
  ../Core/Inc/stm32f1xx_hal_conf.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h \
@@ -28,8 +28,8 @@ Core/User/Src/bh1750.o: ../Core/User/Src/bh1750.c \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h \
- D:/STworkspace/LTN_Semaphore/LTN_Semaphore/Core/User/Inc/i2c-lcd.h
-D:/STworkspace/LTN_Semaphore/LTN_Semaphore/Core/User/Inc/bh1750.h:
+ D:/STworkspace/STM32F1_FreeRTOS/Core/User/Inc/i2c-lcd.h
+D:/STworkspace/STM32F1_FreeRTOS/Core/User/Inc/bh1750.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:
 ../Core/Inc/stm32f1xx_hal_conf.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h:
@@ -58,4 +58,4 @@ D:/STworkspace/LTN_Semaphore/LTN_Semaphore/Core/User/Inc/bh1750.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h:
-D:/STworkspace/LTN_Semaphore/LTN_Semaphore/Core/User/Inc/i2c-lcd.h:
+D:/STworkspace/STM32F1_FreeRTOS/Core/User/Inc/i2c-lcd.h:

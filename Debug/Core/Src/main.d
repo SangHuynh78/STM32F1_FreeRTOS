@@ -44,9 +44,9 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h \
- D:/STworkspace/LTN_Semaphore/LTN_Semaphore/Core/User/Inc/i2c-lcd.h \
- D:/STworkspace/LTN_Semaphore/LTN_Semaphore/Core/User/Inc/DS3231.h \
- D:/STworkspace/LTN_Semaphore/LTN_Semaphore/Core/User/Inc/DHT11.h
+ D:/STworkspace/STM32F1_FreeRTOS/Core/User/Inc/i2c-lcd.h \
+ D:/STworkspace/STM32F1_FreeRTOS/Core/User/Inc/DS3231.h \
+ D:/STworkspace/STM32F1_FreeRTOS/Core/User/Inc/DHT11.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:
 ../Core/Inc/stm32f1xx_hal_conf.h:
@@ -93,6 +93,6 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h:
-D:/STworkspace/LTN_Semaphore/LTN_Semaphore/Core/User/Inc/i2c-lcd.h:
-D:/STworkspace/LTN_Semaphore/LTN_Semaphore/Core/User/Inc/DS3231.h:
-D:/STworkspace/LTN_Semaphore/LTN_Semaphore/Core/User/Inc/DHT11.h:
+D:/STworkspace/STM32F1_FreeRTOS/Core/User/Inc/i2c-lcd.h:
+D:/STworkspace/STM32F1_FreeRTOS/Core/User/Inc/DS3231.h:
+D:/STworkspace/STM32F1_FreeRTOS/Core/User/Inc/DHT11.h:

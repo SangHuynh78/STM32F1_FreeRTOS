@@ -16,7 +16,7 @@ S_DEPS += \
 
 # Each subdirectory must supply rules for building sources it contributes
 Core/Startup/%.o: ../Core/Startup/%.s Core/Startup/subdir.mk
-	arm-none-eabi-gcc -mcpu=cortex-m3 -g3 -DDEBUG -c -I"D:/STworkspace/LTN_Semaphore/LTN_Semaphore/Core/User/Src" -I"D:/STworkspace/LTN_Semaphore/LTN_Semaphore/Core/User" -I"D:/STworkspace/LTN_Semaphore/LTN_Semaphore/Core/User/Inc" -x assembler-with-cpp -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" --specs=nano.specs -mfloat-abi=soft -mthumb -o "$@" "$<"
+	arm-none-eabi-gcc -mcpu=cortex-m3 -g3 -DDEBUG -c -I"D:/STworkspace/STM32F1_FreeRTOS/Core/User/Src" -I"D:/STworkspace/STM32F1_FreeRTOS/Core/User" -I"D:/STworkspace/STM32F1_FreeRTOS/Core/User/Inc" -x assembler-with-cpp -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" --specs=nano.specs -mfloat-abi=soft -mthumb -o "$@" "$<"
 
 clean: clean-Core-2f-Startup
 

@@ -6,8 +6,8 @@
 ../Core/Src/main.c:315:13:MX_GPIO_Init	1
 ../Core/Src/main.c:385:6:HAL_GPIO_EXTI_Callback	4
 ../Core/Src/main.c:414:6:HAL_UART_RxCpltCallback	4
-../Core/Src/main.c:438:6:StartSensorTask	1
-../Core/Src/main.c:465:6:StartCheckTask	22
-../Core/Src/main.c:549:6:UartTask	1
-../Core/Src/main.c:580:6:HAL_TIM_PeriodElapsedCallback	2
-../Core/Src/main.c:597:6:Error_Handler	1
+../Core/Src/main.c:438:6:UpdateSensorTask	1
+../Core/Src/main.c:473:6:ExecuteTask	22
+../Core/Src/main.c:546:6:UartTask	1
+../Core/Src/main.c:573:6:HAL_TIM_PeriodElapsedCallback	2
+../Core/Src/main.c:590:6:Error_Handler	1

@@ -30,8 +30,8 @@ static void MX_I2C1_Init(void);
 static void MX_TIM2_Init(void);
 static void MX_USART1_UART_Init(void);
 //void Display_MOI(float Temp);
-void StartSensorTask(void const * argument);
-void StartCheckTask(void const * argument);
+void UpdateSensorTask(void const * argument);
+void ExecuteTask(void const * argument);
 void UartTask(void const * argument);
 
 /* USER CODE BEGIN PFP */
@@ -130,11 +130,11 @@ int main(void)
 
   /* Create the thread(s) */
   /* definition and creation of SensorTask */
-  osThreadDef(SensorTask, StartSensorTask, osPriorityNormal, 0, 128);
+  osThreadDef(SensorTask, UpdateSensorTask, osPriorityNormal, 0, 128);
   SensorTaskHandle = osThreadCreate(osThread(SensorTask), NULL);
 
   /* definition and creation of ButtonTask */
-  osThreadDef(CheckTask, StartCheckTask, osPriorityAboveNormal, 0, 128);
+  osThreadDef(CheckTask, ExecuteTask, osPriorityAboveNormal, 0, 128);
   CheckTaskHandle = osThreadCreate(osThread(CheckTask), NULL);
 
   /* definition and creation of UartTask */
@@ -434,17 +434,25 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 /* USER CODE END 4 */
 
 
-/* USER CODE END Header_StartSensorTask */
-void StartSensorTask(void const * argument)
+/* USER CODE BEGIN FOR UPDATESENSORTASK  */
+void UpdateSensorTask(void const * argument)
 {
   /* USER CODE BEGIN 5 */
   for(;;)
   {
 	osSemaphoreWait(myBinarySemHandle, osWaitForever);
-	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, 1); //CÁI NÀY LÀ ĐỂ KHI NẠP CODE NHẬN BIẾT CÓ CHẠY VÀO TASK HAY CHƯA
 
+//	DS3231
+	Get_Time(&sec,&min,&hour,&day,&date,&month,&year);
+	sprintf (buffer, "%02d:%02d", hour, min);
+	lcd_put_cur (0,1);
+	lcd_send_string(buffer);
+	sprintf (buffer, "%02d-%02d-%02d", date, month, year);
+	lcd_put_cur(0, 8);
+	lcd_send_string(buffer);
+
+//	DHT11
 	DHT11_Read_Data(&Temperature, &Humidity);
-
 	Display_Temp(Temperature);
 	Display_Rh(Humidity);
 
@@ -457,33 +465,23 @@ void StartSensorTask(void const * argument)
 	osSemaphoreRelease(myBinarySemHandle);
     osDelay(100);
   }
-  /* USER CODE END 5 */
+  /* USER CODE END FOR UPDATESENSORTASK */
 }
 
 
-/* USER CODE END Header_StartButtonTask */
-void StartCheckTask(void const * argument)
+/* USER CODE BEGIN FOR EXECUTETASK */
+void ExecuteTask(void const * argument)
 {
   /* USER CODE BEGIN StartButtonTask */
   /* Infinite loop */
   for(;;)
   {
-	  osSemaphoreWait(myBinarySemHandle, osWaitForever);
-//	  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-//	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, 1); //CÁI NÀY LÀ ĐỂ KHI NẠP CODE NHẬN BIẾT CÓ CHẠY VÀO TASK HAY CHƯA
-	  Get_Time(&sec,&min,&hour,&day,&date,&month,&year);
-	  sprintf (buffer, "%02d:%02d", hour, min);
-	  lcd_put_cur (0,1);
-	  lcd_send_string(buffer);
-	  sprintf (buffer, "%02d-%02d-%02d", date, month, year);
-	  lcd_put_cur(0, 8);
-	  lcd_send_string(buffer);
-
-//	  Case tưới bằng sensor
-	  if(mnt == 0)
-	  {
-		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, 1);
-		  if (pb13 == 0) {
+	osSemaphoreWait(myBinarySemHandle, osWaitForever);
+//	Case tưới bằng sensor
+	if(mnt == 0)
+	{
+		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, 1);
+		if (pb13 == 0) {
 			if (Temperature > 35 || Humidity < 50) {
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET); // Bật máy bơm
 			}
@@ -496,56 +494,55 @@ void StartCheckTask(void const * argument)
 			if (Temperature <= 35 && Humidity >= 50 && moi == 0){
 				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET); // Tắt máy bơm
 			}
-		  }
-			if (pb12 == 1) {
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET); // Bật LED PA6
-			}
-			if (pb12 == 0) {
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_SET); //Off LED PA6
-			}
-			// Kiểm tra trạng thái của biến pb13
-			if (pb13 == 1) {
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET); // bật máy bơm PA5
-			}
-	  }
+		}
+		if (pb12 == 1) {
+			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET); // Bật LED PA6
+		}
+		if (pb12 == 0) {
+			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_SET); //Off LED PA6
+		}
+		// Kiểm tra trạng thái của biến pb13
+		if (pb13 == 1) {
+			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET); // bật máy bơm PA5
+		}
+	}
 
-
-		  	  //Case tưới bằng hẹn giờ
-		  if (mnt == 1){
-			  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, 0);
-			  if (pb13 == 0) {
-				  if (hour == scheduled_hour && min == scheduled_min) {
-					  // Bật LED
-					  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET); //Bật máy bơm
-				  }
-				  else {
-					  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET); // Tắt máy bơm
-				  }
-			  }
-			  if (pb12 == 0) {
-		  		         // Bật đèn nếu giờ hiện tại từ 18:00 đến 06:00
-		  		     if (hour >= light_on_hour || hour <= light_off_hour) {
-		  		    	 HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET); // Bật đèn
-		  		         } else {
-		              HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_SET); // Tắt đèn
-		    }
-			  }
-		    // Kiểm tra trạng thái của biến pb12
-		    if (pb12 == 1) {
-		        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET); // Bật LED PA6
-		    }
-		    // Kiểm tra trạng thái của biến pb13
-		    if (pb13 == 1) {
-		        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET); // Bật máy bơm PA5
-		    }
-		  }
+//	Case tưới bằng hẹn giờ
+	if (mnt == 1){
+		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, 0);
+		if (pb13 == 0) {
+			if (hour == scheduled_hour && min == scheduled_min) {
+				// Bật LED
+				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET); //Bật máy bơm
+			}
+			else {
+				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET); // Tắt máy bơm
+			}
+		}
+		if (pb12 == 0) {
+			// Bật đèn nếu giờ hiện tại từ 18:00 đến 06:00
+			if (hour >= light_on_hour || hour <= light_off_hour) {
+				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET); // Bật đèn
+			} else {
+				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_SET); // Tắt đèn
+			}
+		}
+		// Kiểm tra trạng thái của biến pb12
+		if (pb12 == 1) {
+			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET); // Bật LED PA6
+		}
+		// Kiểm tra trạng thái của biến pb13
+		if (pb13 == 1) {
+			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET); // Bật máy bơm PA5
+		}
+	}
 	osSemaphoreRelease(myBinarySemHandle);
 	osDelay(100);
   }
-  /* USER CODE END StartButtonTask */
+  /* USER CODE END FOR EXECUTETASK*/
 }
 
-/* USER CODE END Header_UartTask */
+/* USER CODE BEGIN FOR UARTTASK*/
 void UartTask(void const * argument)
 {
   /* USER CODE BEGIN UartTask */
@@ -553,10 +550,7 @@ void UartTask(void const * argument)
   for(;;)
   {
 	  osSemaphoreWait(myBinarySemHandle, osWaitForever);
-//	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, 0); //CÁI NÀY LÀ ĐỂ KHI NẠP CODE NHẬN BIẾT CÓ CHẠY VÀO TASK HAY CHƯA
-//	  HAL_UART_Receive_IT(&huart1, &rx_data, 1);
 
-//	  PHẦN NÀY LÀ PHẦN GỬI DATA LÊN ESP
 	  frame[0] = 0x02; // 0x02 là byte nhận dạng chuỗi
 	  frame[1] = (uint8_t)Humidity; // Byte chứa giá trị độ ẩm
 	  frame[2] = (uint8_t)Temperature; // Byte chứa giá trị nhiệt độ
@@ -567,13 +561,12 @@ void UartTask(void const * argument)
 
 	  frame[3] = (pump_status << 3) | (led_status << 2) | (moi << 1) | rain; // Byte chứa trạng thái bơm, led, độ ẩm đất, mưa
 
-	  // Gửi frame qua UART
 	  HAL_UART_Transmit(&huart1, frame, sizeof(frame), HAL_MAX_DELAY);
 
 	  osSemaphoreRelease(myBinarySemHandle);
 	  osDelay(1000);
 	  }
-  /* USER CODE END UartTask */
+  /* USER CODE END FOR UARTTASK*/
 }
 
 

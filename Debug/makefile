@@ -39,37 +39,37 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := LTN_Semaphore
+BUILD_ARTIFACT_NAME := STM32F1_FreeRTOS
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-LTN_Semaphore.elf \
+STM32F1_FreeRTOS.elf \
 
 MAP_FILES += \
-LTN_Semaphore.map \
+STM32F1_FreeRTOS.map \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-LTN_Semaphore.list \
+STM32F1_FreeRTOS.list \
 
 OBJCOPY_HEX += \
-LTN_Semaphore.hex \
+STM32F1_FreeRTOS.hex \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: LTN_Semaphore.elf secondary-outputs
+main-build: STM32F1_FreeRTOS.elf secondary-outputs
 
 # Tool invocations
-LTN_Semaphore.elf LTN_Semaphore.map: $(OBJS) $(USER_OBJS) D:\STworkspace\LTN_Semaphore\LTN_Semaphore\STM32F103C8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "LTN_Semaphore.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"D:\STworkspace\LTN_Semaphore\LTN_Semaphore\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="LTN_Semaphore.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
+STM32F1_FreeRTOS.elf STM32F1_FreeRTOS.map: $(OBJS) $(USER_OBJS) D:\STworkspace\STM32F1_FreeRTOS\STM32F103C8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "STM32F1_FreeRTOS.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"D:\STworkspace\STM32F1_FreeRTOS\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32F1_FreeRTOS.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -78,19 +78,19 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-LTN_Semaphore.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "LTN_Semaphore.list"
+STM32F1_FreeRTOS.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "STM32F1_FreeRTOS.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-LTN_Semaphore.hex: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objcopy  -O ihex $(EXECUTABLES) "LTN_Semaphore.hex"
+STM32F1_FreeRTOS.hex: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objcopy  -O ihex $(EXECUTABLES) "STM32F1_FreeRTOS.hex"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) LTN_Semaphore.elf LTN_Semaphore.hex LTN_Semaphore.list LTN_Semaphore.map default.size.stdout
+	-$(RM) STM32F1_FreeRTOS.elf STM32F1_FreeRTOS.hex STM32F1_FreeRTOS.list STM32F1_FreeRTOS.map default.size.stdout
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_HEX)
