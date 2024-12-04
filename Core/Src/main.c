@@ -56,34 +56,34 @@ char buffer[15];
 uint8_t  sec,min,hour,day,date,month,year;
 
 //biến cho sky mưa
-uint8_t rain = 0; //mặc định là không mưa
+uint8_t rain = 0;
 
- //Biến cho nút bấm PA1
- uint8_t mnt = 0;
+//Biến cho nút bấm PA1
+uint8_t mnt = 0;
 
- //Biến cho nút bấm PB12
- uint8_t pb12 = 0;
- uint8_t led_for_rain = 0;
+//Biến cho nút bấm PB12
+uint8_t pb12 = 0;
+uint8_t led_for_rain = 0;
 
- //Biến cho nút bấm PB13
- uint8_t pb13 = 0;
+//Biến cho nút bấm PB13
+uint8_t pb13 = 0;
 
- //Biến lưu độ ẩm đất
- uint8_t moi = 0; //Mặc định là đất ẩm
- char str[20];
+//Biến lưu độ ẩm đất
+uint8_t moi = 0;
+char str[20];
 
- //Hours schedule realated
- // Giờ bật và tắt đèn
- uint8_t light_on_hour = 18;   // Giờ bật đèn (6 PM)
- uint8_t light_off_hour = 6;   // Giờ tắt đèn (6 AM)
- //Giờ bật máy bơm
- uint8_t scheduled_hour = 15;
- uint8_t scheduled_min_start = 30;
- uint8_t scheduled_min_stop = 35;
+//Hours schedule realated
+// Giờ bật và tắt đèn
+uint8_t light_on_hour = 18;   // Giờ bật đèn (6 PM)
+uint8_t light_off_hour = 6;   // Giờ tắt đèn (6 AM)
+//Giờ bật máy bơm
+uint8_t scheduled_hour = 15;
+uint8_t scheduled_min_start = 30;
+uint8_t scheduled_min_stop = 35;
 
- //BIẾN CHO DHT11
- float Temperature;
- float Humidity;
+//BIẾN CHO DHT11
+float Temperature;
+float Humidity;
 
 /* USER CODE END 0 */
 
